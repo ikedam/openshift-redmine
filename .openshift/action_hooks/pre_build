@@ -16,38 +16,38 @@ if [ -f Gemfile ]; then
   # .bundle and vendor/bundle directory is saved to ${OPENSHIFT_RUBY_DIR}tmp in
   # pre-repo-archive phase.
   # So recover it.
-  if [ -d "${OPENSHIFT_RUBY_DIR}/tmp/.bundle" ]; then
+  if [ -d "${OPENSHIFT_RUBY_DIR}tmp/.bundle" ]; then
     if [ -d ".bundle" ]; then
       echo 'ERROR: You need to remove the ".bundle" directory from your GIT repository.' >&2
       exit 1;
     fi
-    mv "${OPENSHIFT_RUBY_DIR}/tmp/.bundle" .bundle
+    mv "${OPENSHIFT_RUBY_DIR}tmp/.bundle" .bundle
   fi
   
-  if [ -d "${OPENSHIFT_RUBY_DIR}/tmp/vendor" ]; then
+  if [ -d "${OPENSHIFT_RUBY_DIR}tmp/vendor" ]; then
     if [ -d "vendor/bundle" ]; then
       echo 'ERROR: You need to remove the "vendor/bundle" directory from your GIT repository.' >&2
       exit 1;
     fi
     if [ -d "vendor" ]; then
-      mv "${OPENSHIFT_RUBY_DIR}/tmp/vendor/bundle" vendor
+      mv "${OPENSHIFT_RUBY_DIR}tmp/vendor/bundle" vendor
     else
-      mv "${OPENSHIFT_RUBY_DIR}/tmp/vendor" .
+      mv "${OPENSHIFT_RUBY_DIR}tmp/vendor" .
     fi
   fi
   
-  bundle install --without development test --path vendor/bundle
+  bundle install --no-deployment --without development test --path vendor/bundle
   RET=$?
   if [ "${RET}" != "0" ]; then
     echo "Failed to run bundler with ${RET}" >&2
     exit ${RET}
   fi
   
-  rm -f "${OPENSHIFT_RUBY_DIR}tmp/.bundle"
-  rm -f "${OPENSHIFT_RUBY_DIR}/tmp/"
+  rm -rf "${OPENSHIFT_RUBY_DIR}tmp/.bundle"
+  rm -rf "${OPENSHIFT_RUBY_DIR}tmp/vendor"
   
   mv .bundle "${OPENSHIFT_RUBY_DIR}tmp/.bundle"
-  mv vendor "${OPENSHIFT_RUBY_DIR}/tmp/"
+  mv vendor "${OPENSHIFT_RUBY_DIR}tmp/vendor"
 fi
 
 popd
