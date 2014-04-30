@@ -29,7 +29,6 @@ How to use
 2. Add a new application with Ruby on Rails.
     * Ruby on Rails looks just a synonym for Ruby 1.9 + MySQL.
     * Set Source Code as `https://github.com/ikedam/openshift-redmine.git` `master`
-        * There are branches for some versions of redmine.
     * Select Ruby 1.9 and `MySQL 5.5` for cardridges.
 3. Run following command:
     
